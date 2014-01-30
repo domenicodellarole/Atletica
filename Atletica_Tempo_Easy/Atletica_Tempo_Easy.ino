@@ -7,9 +7,9 @@ Versione 1.0
 */
 
 int timeSetted = 8000; // tempo impostato da "battere"
-int recoveryTime = 30000; //tempo di recupero
+int recoveryTime = 6000; //tempo di recupero
 int ledGreen = 13;
-int speaker = 5; // pin a cui è connesso lo speaker
+int speaker = 10; // pin a cui è connesso lo speaker
 int button = 4; // pin a cui è connesso il bottone da premere per far partire la procedura
 
 void setup(){
@@ -23,21 +23,15 @@ void loop(){
   // Se il bottone viene premuto 
   if(pushedButton()){
      Serial.println("Tempo di recupero");
-     // Indicazione che il tempo di recupero è partito
-     blinkLedOn(ledGreen);
-     delay(1000);
-     blinkLedOff(ledGreen);
-     delay(recoveryTime);
-     delay(recoveryTime);
-     // Sta per iniziare la partenza
-     blinkLedOn(ledGreen);
-     delay(1000);
-     // Viene fatto il beep
-     beepStart(1000);
-     Serial.println("Start");
+     recoveryingStatus();
+     startingStatus();
+     unsigned long timeStart = millis();
      blinkLedOff(ledGreen);
      delay(timeSetted);
      Serial.println("Finish");
+     unsigned long timeFinish = millis();
+     unsigned long timeRun = timeFinish - timeStart;
+     Serial.println(timeRun);
      blinkLedOn(ledGreen);
      delay(4000);
      blinkLedOff(ledGreen);
@@ -66,3 +60,24 @@ void beepStart(unsigned char delayms){
   analogWrite(speaker, 0);       
   delay(delayms);            
 }  
+
+void recoveryingStatus(){
+  // Indicazione che il tempo di recupero è partito
+     blinkLedOn(ledGreen);
+     delay(1000);
+     blinkLedOff(ledGreen);
+     delay(recoveryTime);
+     delay(recoveryTime);
+}     
+
+void startingStatus(){
+   // Sta per iniziare la partenza
+     blinkLedOn(ledGreen);
+     delay(1000);
+     // Viene fatto il beep
+     beepStart(1000);
+     Serial.println("Start");
+}     
+
+
+
