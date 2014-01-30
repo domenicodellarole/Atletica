@@ -6,6 +6,12 @@ Arduino con l'atletica
 I codici presenti in questa pagina, permettono di stabilire se l'atleta ha percorso la distanza desiderata,
 sotto il tempo stabilito. Ci sono due versioni di programmi:
 
+Atletica_Tempo_ECHO
+
+Questo programma permette di calcolare il tempo che l'atleta impiega su una determinata distanza. La partenza viene
+scandita attraverso un beep acustico ed un led luminoso, mentre l'arrivo viene stabilito attraverso un sensore ad 
+ultrasuoni il HC-SR04. Il tempo di recupero e vari "delay" sono facilmente modificabili direttamente dal codice
+
 Atletica_Tempo_Easy
 
 Per questo programma, occorre soltanto un Arduino e va posto all'arrivo della corsa. Occorre premere il pulsante, per 
