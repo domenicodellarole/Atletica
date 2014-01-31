@@ -2,18 +2,16 @@
 Questo programma permette di calcolare il tempo impiegato da un'atleta ad impiegare una certa
 distanza. Il via viene dato attraverso un beep ed un led luminoso
 Autore Giacomo Bellazzi
-Versione 1.0
+Versione 1.1
 */
 
 #define echoPin 7 // Echo Pin
 #define trigPin 8 // Trigger Pin
 
-int timeSetted = 8000; // tempo impostato da "battere"
-int recoveryTime = 30000; //tempo di recupero
+int recoveryTime = 3000; //tempo di recupero
 int ledGreen = 13;
 int speaker = 10; // pin a cui è connesso lo speaker
 int button = 4; // pin a cui è connesso il bottone da premere per far partire la procedura
-long duration, distance; // Duration used to calculate distance
 int runningStatus = -1;
 // Queste tre variabili permettono di calcolare il tempo della corsa
 unsigned long timeStart;
@@ -38,15 +36,15 @@ void loop(){
      runningStatus = 0;
      while(isRunning(runningStatus)){
        // questa condizione significa che l'atleta è passato
-       if(getDistance()<100){
+       if(getDuration()<8730){
+         timeFinish = millis();
+          blinkLedOn(ledGreen);
          runningStatus = 1;
-       }
+        }
      }
      Serial.println("Finish");
-     timeFinish = millis();
      timeRun = timeFinish - timeStart;
      printTime(timeRun);
-     blinkLedOn(ledGreen);
      delay(4000);
      blinkLedOff(ledGreen);
   }
@@ -111,7 +109,8 @@ boolean isRunning(int ID){
 void printTime(unsigned long time){
   Serial.println("Tempo");
   int secondi = time/1000;
-  int centesimi = (time - secondi)/100;
+  int parziale = secondi*1000; 
+  int centesimi = (time - parziale)/10;
   Serial.print(secondi);
   Serial.print("'");
   Serial.print(centesimi);
@@ -119,17 +118,15 @@ void printTime(unsigned long time){
   Serial.println("");
 }
 
- // Viene calcolata la distanza del sensore, che permette di capire se l'atleta è arrivato
-long getDistance(){
+ // Viene calcolata la durata dell'impulso, che permette di capire se l'atleta è arrivato
+long getDuration(){
        digitalWrite(trigPin, LOW); 
        delayMicroseconds(2); 
        digitalWrite(trigPin, HIGH);
        delayMicroseconds(10); 
        digitalWrite(trigPin, LOW);
-       duration = pulseIn(echoPin, HIGH);
-       //Calculate the distance (in cm) based on the speed of sound.
-       distance = duration/58.2;
-       return distance;
+        // Durata impulso
+       return pulseIn(echoPin, HIGH);;
 }
 
 

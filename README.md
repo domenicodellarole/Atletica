@@ -26,3 +26,5 @@ Versione 1.1 //TODO Impostare i parametri da KeyPad, senza ricompilare il progra
 Atletica_Tempo_RX e TX
 
 Questo progetto necessita ancora di essere testato, sopratutto per problemi di comunicazioni tra i due dispositivi
+
+a
